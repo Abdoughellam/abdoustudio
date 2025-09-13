@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdou Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 60, 114, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .language-selector {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .language-selector:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Pages */
+        .page {
+            min-height: 100vh;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .page.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Welcome Page */
+        .welcome-page {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .welcome-content {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .welcome-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1e3c72;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Main Page */
+        .main-page {
+            flex-direction: column;
+            padding-top: 100px;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .payment-highlight {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+            margin-top: 1rem;
+        }
+
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-icon:hover {
+            transform: scale(1.1);
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border: none;
+            border-radius: 50%;
+            color: #1e3c72;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .header {
+            direction: rtl;
+        }
+
+        [dir="rtl"] .brand {
+            flex-direction: row-reverse;
+        }
+
+        [dir="ltr"] .header {
+            direction: ltr;
+        }
+
+        [dir="ltr"] .brand {
+            flex-direction: row;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .contact-icons {
+                gap: 1rem;
+            }
+
+            .contact-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="brand">
+            <div class="logo">AS</div>
+            <div class="brand-name">Abdou Studio</div>
+        </div>
+        <div class="language-selector" onclick="switchLanguage()">
+            <i class="fas fa-globe"></i>
+        </div>
+    </header>
+
+    <!-- Welcome Page -->
+    <div class="page welcome-page active" id="welcomePage">
+        <div class="welcome-content">
+            <h1 class="welcome-title" data-ar="مرحباً بكم" data-en="Welcome" data-fr="Bienvenue">مرحباً بكم</h1>
+            <p class="welcome-description" 
+               data-ar="استوديو عبدو هو مكانك المثالي للحصول على خدمات الترجمة الاحترافية عالية الجودة. نحن نقدم حلول ترجمة دقيقة ومتخصصة لتلبية احتياجاتك"
+               data-en="Abdou Studio is your ideal destination for high-quality professional translation services. We provide accurate and specialized translation solutions to meet your needs"
+               data-fr="Abdou Studio est votre destination idéale pour des services de traduction professionnels de haute qualité. Nous fournissons des solutions de traduction précises et spécialisées pour répondre à vos besoins">
+                استوديو عبدو هو مكانك المثالي للحصول على خدمات الترجمة الاحترافية عالية الجودة. نحن نقدم حلول ترجمة دقيقة ومتخصصة لتلبية احتياجاتك
+            </p>
+            <button class="btn" onclick="goToMainPage()" 
+                    data-ar="انتقل إلى الصفحة الرئيسية" 
+                    data-en="Go to Main Page" 
+                    data-fr="Aller à la page principale">
+                انتقل إلى الصفحة الرئيسية
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div class="page main-page" id="mainPage">
+        <div class="main-content">
+            <!-- What We Do Section -->
+            <div class="section">
+                <h2 class="section-title" data-ar="ماذا نفعل" data-en="What We Do" data-fr="Ce que nous faisons">ماذا نفعل</h2>
+                <div class="section-content" 
+                     data-ar="نحن نقدم خدمات ترجمة احترافية شاملة تغطي جميع المجالات والتخصصات. فريقنا من المترجمين المحترفين يضمن دقة وجودة الترجمة في كل مشروع. نترجم النصوص والوثائق والمحتوى الرقمي بأعلى معايير الجودة والاحترافية."
+                     data-en="We provide comprehensive professional translation services covering all fields and specializations. Our team of professional translators ensures accuracy and quality in every project. We translate texts, documents, and digital content with the highest standards of quality and professionalism."
+                     data-fr="Nous fournissons des services de traduction professionnels complets couvrant tous les domaines et spécialisations. Notre équipe de traducteurs professionnels garantit la précision et la qualité dans chaque projet. Nous traduisons des textes, documents et contenu numérique selon les plus hauts standards de qualité et de professionnalisme.">
+                    نحن نقدم خدمات ترجمة احترافية شاملة تغطي جميع المجالات والتخصصات. فريقنا من المترجمين المحترفين يضمن دقة وجودة الترجمة في كل مشروع. نترجم النصوص والوثائق والمحتوى الرقمي بأعلى معايير الجودة والاحترافية.
+                </div>
+            </div>
+
+            <!-- How We Work Section -->
+            <div class="section">
+                <h2 class="section-title" data-ar="كيف نعمل" data-en="How We Work" data-fr="Comment nous travaillons">كيف نعمل</h2>
+                <div class="section-content" 
+                     data-ar="نحن نعمل بطريقة احترافية ومنظمة لضمان أفضل النتائج لعملائنا. بعد تلقي طلبكم، نقوم بدراسة المشروع بعناية وتحديد المتطلبات. يتواصل معنا العملاء لمناقشة التفاصيل والأسعار بشكل خاص ومباشر لضمان الشفافية والوضوح في كل خطوة."
+                     data-en="We work professionally and systematically to ensure the best results for our clients. After receiving your request, we carefully study the project and determine the requirements. Customers contact us to discuss details and prices privately and directly to ensure transparency and clarity at every step."
+                     data-fr="Nous travaillons de manière professionnelle et systématique pour garantir les meilleurs résultats à nos clients. Après avoir reçu votre demande, nous étudions attentivement le projet et déterminons les exigences. Les clients nous contactent pour discuter des détails et des prix en privé et directement pour assurer la transparence et la clarté à chaque étape.">
+                    نحن نعمل بطريقة احترافية ومنظمة لضمان أفضل النتائج لعملائنا. بعد تلقي طلبكم، نقوم بدراسة المشروع بعناية وتحديد المتطلبات. يتواصل معنا العملاء لمناقشة التفاصيل والأسعار بشكل خاص ومباشر لضمان الشفافية والوضوح في كل خطوة.
+                </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div class="section">
+                <h2 class="section-title" data-ar="الدفع" data-en="Payment" data-fr="Paiement">الدفع</h2>
+                <div class="section-content" 
+                     data-ar="نحن نوفر طرق دفع آمنة ومريحة لعملائنا."
+                     data-en="We provide safe and convenient payment methods for our clients."
+                     data-fr="Nous fournissons des méthodes de paiement sûres et pratiques pour nos clients.">
+                    نحن نوفر طرق دفع آمنة ومريحة لعملائنا.
+                </div>
+                <div class="payment-highlight">
+                    <strong data-ar="الدفع يتم عبر CCP (الجزائر) بعد المناقشة والاتفاق على التفاصيل"
+                            data-en="Payment is made via CCP (Algeria) after discussion and agreement on details"
+                            data-fr="Le paiement se fait via CCP (Algérie) après discussion et accord sur les détails">
+                        الدفع يتم عبر CCP (الجزائر) بعد المناقشة والاتفاق على التفاصيل
+                    </strong>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="section contact-section">
+                <h2 class="section-title" data-ar="تواصل معنا" data-en="Contact Us" data-fr="Contactez-nous">تواصل معنا</h2>
+                <div class="contact-icons">
+                    <a href="https://www.instagram.com/abdoustudio1" target="_blank" class="contact-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/1BBKmUwUKy/?mibextid=wwXIfr" target="_blank" class="contact-icon">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://wa.me/213775251889" target="_blank" class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="mailto:ghellamg9@gmail.com" class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="goToWelcomePage()" title="العودة للصفحة الرئيسية">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentLanguage = 'ar';
+        const languages = ['ar', 'en', 'fr'];
+        
+        function switchLanguage() {
+            const currentIndex = languages.indexOf(currentLanguage);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            currentLanguage = languages[nextIndex];
+            
+            // Update document direction and lang
+            document.documentElement.lang = currentLanguage;
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update all elements with language data
+            const elements = document.querySelectorAll('[data-' + currentLanguage + ']');
+            elements.forEach(element => {
+                const text = element.getAttribute('data-' + currentLanguage);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update back button arrow direction
+            const backBtn = document.querySelector('.back-btn i');
+            if (currentLanguage === 'ar') {
+                backBtn.className = 'fas fa-arrow-right';
+            } else {
+                backBtn.className = 'fas fa-arrow-left';
+            }
+        }
+        
+        function goToMainPage() {
+            document.getElementById('welcomePage').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('mainPage').classList.add('active');
+            }, 250);
+        }
+        
+        function goToWelcomePage() {
+            document.getElementById('mainPage').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('welcomePage').classList.add('active');
+            }, 250);
+        }
+        
+        // Add smooth scroll and animation triggers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate sections on main page load
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+</body>
+</html>
